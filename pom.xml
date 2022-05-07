@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.6.7</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+    <groupId>xyz.slienceme</groupId>
+    <artifactId>db_doc</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>db_doc</name>
+    <description>db_doc</description>
+    <properties>
+        <java.version>1.8</java.version>
+    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+
+        <!-- screw 库，简洁好用的数据库表结构文档生成器 -->
+        <dependency>
+            <groupId>cn.smallbun.screw</groupId>
+            <artifactId>screw-core</artifactId>
+            <version>1.0.5</version>
+        </dependency>
+        <dependency>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP</artifactId>
+            <version>3.4.5</version>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>cn.smallbun.screw</groupId>
+                <artifactId>screw-maven-plugin</artifactId>
+                <version>1.0.5</version>
+                <dependencies>
+                    <!-- 数据库连接 -->
+                    <dependency>
+                        <groupId>com.zaxxer</groupId>
+                        <artifactId>HikariCP</artifactId>
+                        <version>3.4.5</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>mysql</groupId>
+                        <artifactId>mysql-connector-java</artifactId>
+                    </dependency>
+                </dependencies>
+                <configuration>
+                    <!-- 数据库相关配置 -->
+                    <driverClassName>com.mysql.cj.jdbc.Driver</driverClassName>
+                    <jdbcUrl>jdbc:mysql://localhost:3306/shop?serverTimezone=Asia/Shanghai</jdbcUrl>
+                    <username>root</username>
+                    <password>xian123</password>
+                    <!-- screw 配置 -->
+                    <fileType>WORD</fileType>
+                    <title>数据库文档</title> <!--标题-->
+                    <fileName>测试文档名称</fileName> <!--文档名称 为空时:将采用[数据库名称-描述-版本号]作为文档名称-->
+                    <description>数据库文档生成</description> <!--描述-->
+                    <version>${project.version}</version> <!--版本-->
+                    <openOutputDir>false</openOutputDir> <!--打开文件输出目录-->
+                    <produceType>freemarker</produceType> <!--生成模板-->
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
